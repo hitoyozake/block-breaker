@@ -9,8 +9,8 @@
 
 ## フェーズ
 Phase1: パドルを左右に動かす
-Phase2: ボールを動かす
-Phase3: ブロック配置
+Phase2: ブロック配置
+Phase3: ボールを動かす
 Phase4: 当たり判定
 Phase5: スコア
 
