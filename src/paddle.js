@@ -1,5 +1,5 @@
 const WIDTH  = 80;
-const HEIGHT = 12;
+const HEIGHT = 10;
 const SPEED  = 300; // px/s
 
 export class Paddle {
@@ -18,7 +18,7 @@ export class Paddle {
   }
 
   draw(ctx) {
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }
