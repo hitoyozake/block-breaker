@@ -1,0 +1,11 @@
+on:
+    pull_request:
+        types: [opened]
+
+jobs:
+    notify:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Send Slack
+              run: |
+                curl -X POST -H 'Content-type: application/json' --data '{"text":"A new pull request has been opened!"}' ${{ secrets.SLACK_WEBHOOK }}
