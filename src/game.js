@@ -1,5 +1,6 @@
 import { Paddle } from './paddle.js';
 import { Input }  from './input.js';
+import { Bricks } from './bricks.js';
 
 export class Game {
   constructor(canvas) {
@@ -8,6 +9,7 @@ export class Game {
     this.lastTime = 0;
     this.input  = new Input();
     this.paddle = new Paddle(canvas.width, canvas.height);
+    this.bricks = new Bricks();
   }
 
   start() {
@@ -28,6 +30,7 @@ export class Game {
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.bricks.draw(this.ctx);
     this.paddle.draw(this.ctx);
   }
 }
