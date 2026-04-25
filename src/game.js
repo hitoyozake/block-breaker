@@ -1,8 +1,13 @@
+import { Paddle } from './paddle.js';
+import { Input }  from './input.js';
+
 export class Game {
   constructor(canvas) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
+    this.ctx    = canvas.getContext('2d');
     this.lastTime = 0;
+    this.input  = new Input();
+    this.paddle = new Paddle(canvas.width, canvas.height);
   }
 
   start() {
@@ -12,19 +17,17 @@ export class Game {
   loop(time) {
     const delta = time - this.lastTime;
     this.lastTime = time;
-
     this.update(delta);
     this.render();
-
     requestAnimationFrame(this.loop.bind(this));
   }
 
   update(delta) {
-    // TODO: update entities
+    this.paddle.update(delta, this.input);
   }
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    // TODO: draw entities
+    this.paddle.draw(this.ctx);
   }
 }
