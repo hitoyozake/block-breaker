@@ -42,6 +42,19 @@ export class Ball {
     }
   }
 
+  bounceOffPaddle(paddle) {
+    if (this.dy <= 0) return;
+    if (
+      this.x + this.radius >= paddle.x &&
+      this.x - this.radius <= paddle.x + paddle.width &&
+      this.y + this.radius >= paddle.y &&
+      this.y + this.radius <= paddle.y + paddle.height
+    ) {
+      this.y  = paddle.y - this.radius;
+      this.dy = -Math.abs(this.dy);
+    }
+  }
+
   draw(ctx) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);

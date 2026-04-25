@@ -35,6 +35,7 @@ export class Game {
       }
     }
     this.ball.update(delta, this.canvas.width);
+    this.ball.bounceOffPaddle(this.paddle);
     this.input.clearFrame();
   }
 
