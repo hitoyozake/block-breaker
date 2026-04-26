@@ -19,6 +19,7 @@ export class Game {
     this.paddle = new Paddle(this.canvas.width, this.canvas.height);
     this.bricks = new Bricks();
     this.ball   = new Ball();
+    this.score  = 0;
     this.state  = STATE.PLAY;
   }
 
@@ -52,7 +53,7 @@ export class Game {
 
     this.ball.update(delta, this.canvas.width);
     this.ball.bounceOffPaddle(this.paddle);
-    this.bricks.checkCollision(this.ball);
+    this.score += this.bricks.checkCollision(this.ball);
 
     if (this.ball.y - this.ball.radius > this.canvas.height) {
       this.state = STATE.GAMEOVER;
@@ -68,12 +69,20 @@ export class Game {
     this.bricks.draw(this.ctx);
     this.paddle.draw(this.ctx);
     this.ball.draw(this.ctx);
+    this._drawScore();
 
     if (this.state === STATE.GAMEOVER) {
       this._drawOverlay('GAME OVER', '#FF4444');
     } else if (this.state === STATE.CLEAR) {
       this._drawOverlay('CLEAR!', '#44FF44');
     }
+  }
+
+  _drawScore() {
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.font = '16px monospace';
+    this.ctx.textAlign = 'left';
+    this.ctx.fillText(`SCORE: ${this.score}`, 10, 20);
   }
 
   _drawOverlay(text, color) {
@@ -83,9 +92,11 @@ export class Game {
     this.ctx.fillStyle = color;
     this.ctx.font = 'bold 48px monospace';
     this.ctx.textAlign = 'center';
-    this.ctx.fillText(text, width / 2, height / 2 - 20);
+    this.ctx.fillText(text, width / 2, height / 2 - 30);
     this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.font = 'bold 24px monospace';
+    this.ctx.fillText(`SCORE: ${this.score}`, width / 2, height / 2 + 10);
     this.ctx.font = '20px monospace';
-    this.ctx.fillText('SPACE to restart', width / 2, height / 2 + 30);
+    this.ctx.fillText('SPACE to restart', width / 2, height / 2 + 50);
   }
 }

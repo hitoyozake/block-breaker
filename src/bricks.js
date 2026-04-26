@@ -6,7 +6,8 @@ const GAP        = 4;
 const OFFSET_TOP = 50;
 const OFFSET_LEFT = (480 - (COLS * (BRICK_W + GAP) - GAP)) / 2; // = 2px
 
-const ROW_COLORS = ['#FF4444', '#FF8800', '#FFFF00', '#44FF44', '#4488FF'];
+const ROW_COLORS  = ['#FF4444', '#FF8800', '#FFFF00', '#44FF44', '#4488FF'];
+const ROW_POINTS  = [50, 40, 30, 20, 10];
 
 export class Bricks {
   constructor() {
@@ -19,12 +20,14 @@ export class Bricks {
           width:  BRICK_W,
           height: BRICK_H,
           color:  ROW_COLORS[r],
+          points: ROW_POINTS[r],
           alive:  true,
         });
       }
     }
   }
 
+  // Returns points earned, or 0 if no hit
   checkCollision(ball) {
     for (const b of this.bricks) {
       if (!b.alive) continue;
@@ -37,10 +40,10 @@ export class Bricks {
         } else {
           ball.dy = -ball.dy;
         }
-        return true;
+        return b.points;
       }
     }
-    return false;
+    return 0;
   }
 
   allCleared() {

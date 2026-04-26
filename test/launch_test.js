@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-// ここにテストを追加していく　
-/*
-test('standard test', async ({ page }) => {
-
+test('ゲームが起動してスコア表示がある', async ({ page }) => {
+  await page.goto('/');
+  const canvas = page.locator('canvas#gameCanvas');
+  await expect(canvas).toBeVisible();
 });
-*/
