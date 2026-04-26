@@ -2,8 +2,8 @@ const RADIUS = 8;
 const SPEED  = 300; // px/s
 
 const RAINBOW_HUES = [0, 51, 102, 154, 205, 256, 307];
-const TRAIL_DURATION_MS = 50;
-const TRAIL_MAX_COUNT   = 5;
+const TRAIL_DURATION_MS = 200;
+const TRAIL_MAX_COUNT   = 20;
 const TRAIL_ALPHA_MAX   = 0.75;
 
 export class Ball {
