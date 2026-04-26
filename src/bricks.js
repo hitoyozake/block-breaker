@@ -9,8 +9,12 @@ const OFFSET_LEFT = (480 - (COLS * (BRICK_W + GAP) - GAP)) / 2; // = 2px
 const ROW_COLORS  = ['#FF4444', '#FF8800', '#FFFF00', '#44FF44', '#4488FF'];
 const ROW_POINTS  = [50, 40, 30, 20, 10];
 
+const _blockImg = new Image();
+_blockImg.src = 'assets/block.png';
+
 export class Bricks {
   constructor() {
+    this._colorCache = {};
     this.bricks = [];
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
@@ -50,11 +54,33 @@ export class Bricks {
     return this.bricks.every(b => !b.alive);
   }
 
+  _getColoredBrick(color) {
+    if (!_blockImg.complete || !_blockImg.naturalWidth) return null;
+    if (this._colorCache[color]) return this._colorCache[color];
+    const off = document.createElement('canvas');
+    off.width  = BRICK_W;
+    off.height = BRICK_H;
+    const oc = off.getContext('2d');
+    oc.fillStyle = '#FFFFFF';
+    oc.fillRect(0, 0, BRICK_W, BRICK_H);
+    oc.drawImage(_blockImg, 0, 0, BRICK_W, BRICK_H);
+    oc.globalCompositeOperation = 'multiply';
+    oc.fillStyle = color;
+    oc.fillRect(0, 0, BRICK_W, BRICK_H);
+    this._colorCache[color] = off;
+    return off;
+  }
+
   draw(ctx) {
     for (const b of this.bricks) {
       if (!b.alive) continue;
-      ctx.fillStyle = b.color;
-      ctx.fillRect(b.x, b.y, b.width, b.height);
+      const colored = this._getColoredBrick(b.color);
+      if (colored) {
+        ctx.drawImage(colored, b.x, b.y);
+      } else {
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, b.y, b.width, b.height);
+      }
     }
   }
 }
