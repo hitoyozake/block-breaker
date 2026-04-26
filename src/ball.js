@@ -1,6 +1,11 @@
 const RADIUS = 8;
 const SPEED  = 300; // px/s
 
+const RAINBOW_HUES = [0, 51, 102, 154, 205, 256, 307];
+const TRAIL_DURATION_MS = 50;
+const TRAIL_MAX_COUNT   = 5;
+const TRAIL_ALPHA_MAX   = 0.75;
+
 export class Ball {
   constructor() {
     this.radius   = RADIUS;
@@ -9,6 +14,9 @@ export class Ball {
     this.dx       = 0;
     this.dy       = 0;
     this.launched = false;
+    this.color    = `hsl(${RAINBOW_HUES[Math.floor(Math.random() * RAINBOW_HUES.length)]}, 100%, 65%)`;
+    this._trail      = [];
+    this._hueIndex   = 0;
   }
 
   attachTo(paddle) {
@@ -40,6 +48,27 @@ export class Ball {
       this.y  = this.radius;
       this.dy = Math.abs(this.dy);
     }
+
+    this._trail.unshift({
+      x:   this.x,
+      y:   this.y,
+      age: 0,
+      hue: RAINBOW_HUES[this._hueIndex % RAINBOW_HUES.length],
+    });
+    this._hueIndex++;
+
+    if (this._trail.length > TRAIL_MAX_COUNT) {
+      this._trail.length = TRAIL_MAX_COUNT;
+    }
+
+    for (const p of this._trail) {
+      p.age += delta;
+    }
+    this._trail = this._trail.filter(p => p.age < TRAIL_DURATION_MS);
+  }
+
+  clearTrail() {
+    this._trail = [];
   }
 
   bounceOffPaddle(paddle) {
@@ -56,9 +85,19 @@ export class Ball {
   }
 
   draw(ctx) {
+    // draw trail oldest-first so newer ones render on top
+    for (let i = this._trail.length - 1; i >= 0; i--) {
+      const p     = this._trail[i];
+      const alpha = TRAIL_ALPHA_MAX * (1 - p.age / TRAIL_DURATION_MS);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${p.hue}, 100%, 65%, ${alpha.toFixed(3)})`;
+      ctx.fill();
+    }
+
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = this.color;
     ctx.fill();
   }
 }
