@@ -25,6 +25,28 @@ export class Bricks {
     }
   }
 
+  checkCollision(ball) {
+    for (const b of this.bricks) {
+      if (!b.alive) continue;
+      const overlapX = Math.min(ball.x + ball.radius, b.x + b.width)  - Math.max(ball.x - ball.radius, b.x);
+      const overlapY = Math.min(ball.y + ball.radius, b.y + b.height) - Math.max(ball.y - ball.radius, b.y);
+      if (overlapX > 0 && overlapY > 0) {
+        b.alive = false;
+        if (overlapX < overlapY) {
+          ball.dx = -ball.dx;
+        } else {
+          ball.dy = -ball.dy;
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  allCleared() {
+    return this.bricks.every(b => !b.alive);
+  }
+
   draw(ctx) {
     for (const b of this.bricks) {
       if (!b.alive) continue;
