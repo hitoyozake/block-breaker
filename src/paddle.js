@@ -12,6 +12,10 @@ export class Paddle {
   }
 
   update(delta, input) {
+    if (input.pointerX !== null) {
+      const target = input.pointerX - this.width / 2;
+      this.x = Math.max(0, Math.min(this.canvasWidth - this.width, target));
+    }
     const dx = SPEED * (delta / 1000);
     if (input.isDown('ArrowLeft'))  this.x = Math.max(0, this.x - dx);
     if (input.isDown('ArrowRight')) this.x = Math.min(this.canvasWidth - this.width, this.x + dx);

@@ -10,7 +10,7 @@ export class Game {
     this.canvas = canvas;
     this.ctx    = canvas.getContext('2d');
     this.lastTime = 0;
-    this.input  = new Input();
+    this.input  = new Input(canvas);
     this.state  = STATE.PLAY;
     this._init();
   }
