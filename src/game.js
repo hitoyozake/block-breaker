@@ -97,6 +97,6 @@ export class Game {
     this.ctx.font = 'bold 24px monospace';
     this.ctx.fillText(`SCORE: ${this.score}`, width / 2, height / 2 + 10);
     this.ctx.font = '20px monospace';
-    this.ctx.fillText('SPACE to restart', width / 2, height / 2 + 50);
+    this.ctx.fillText('SPACE or TAP to restart', width / 2, height / 2 + 50);
   }
 }
