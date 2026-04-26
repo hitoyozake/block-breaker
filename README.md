@@ -12,6 +12,7 @@ Phase1: パドルを左右に動かす
 Phase2: ブロック配置
 Phase3: ボールを動かす
 Phase4: 当たり判定
+Phase4.5: テスト環境の構築(DevContainer + Playwright)
 Phase5: スコア
 
 ## 操作方法
